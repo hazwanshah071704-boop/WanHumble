@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wanhumble | MLBB Service</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth}
+body{
+font-family:Arial,Helvetica,sans-serif;background:#05070d;color:#fff;
+overflow-x:hidden;min-height:100vh;
+background-image:radial-gradient(circle at 20% 10%,rgba(0,140,255,.12),transparent 30%),
+radial-gradient(circle at 85% 80%,rgba(0,170,255,.08),transparent 30%);
+}
+body::before{
+content:"";position:fixed;width:450px;height:450px;background:#008cff;
+filter:blur(170px);opacity:.12;top:-200px;left:-160px;z-index:-3;
+}
+nav{
+position:fixed;top:0;left:0;width:100%;padding:20px 8%;
+display:flex;justify-content:space-between;align-items:center;
+background:rgba(5,7,13,.72);backdrop-filter:blur(15px);
+border-bottom:1px solid rgba(0,140,255,.15);z-index:1000;transition:.35s
+}
+nav.scrolled{padding:12px 8%;background:rgba(3,6,12,.94);box-shadow:0 5px 30px rgba(0,100,255,.12)}
+.logo{font-size:25px;font-weight:900;letter-spacing:2px;color:#00aaff;animation:logoGlow 2.5s ease-in-out infinite}
+.logo span{color:#fff}
+nav ul{display:flex;gap:30px;list-style:none}
+nav a{color:#ddd;text-decoration:none;font-weight:bold;transition:.3s}
+nav a:hover{color:#00aaff;text-shadow:0 0 10px #00aaff}
+.hero{
+min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;
+padding:120px 20px 70px;position:relative
+}
+.hero-content{max-width:900px;animation:heroText 1.2s cubic-bezier(.2,.8,.2,1)}
+.badge{
+display:inline-block;padding:8px 18px;border:1px solid #008cff;border-radius:30px;
+color:#00aaff;background:rgba(0,140,255,.08);margin-bottom:25px;
+animation:pulse 2s infinite
+}
+.hero h1{font-size:clamp(55px,9vw,105px);line-height:.95;font-weight:900}
+.hero h1 span{color:#00aaff;text-shadow:0 0 30px rgba(0,170,255,.65)}
+.hero p{color:#aaa;font-size:18px;line-height:1.6;max-width:620px;margin:25px auto}
+.buttons{display:flex;justify-content:center;gap:15px;flex-wrap:wrap}
+.btn,.order{
+position:relative;overflow:hidden;padding:14px 28px;border-radius:10px;
+text-decoration:none;font-weight:bold;display:inline-block;transition:.3s
+}
+.primary{background:#008cff;color:#fff;box-shadow:0 0 25px rgba(0,140,255,.35);animation:buttonGlow 2s infinite}
+.primary:hover{transform:translateY(-5px);box-shadow:0 0 40px rgba(0,140,255,.75)}
+.secondary{border:1px solid #333;color:#fff}
+.secondary:hover{border-color:#00aaff;color:#00aaff}
+section{padding:100px 8%}
+.section-title{text-align:center;margin-bottom:50px}
+.section-title h2{font-size:45px}
+.section-title span,.cta span{color:#00aaff}
+.section-title p{color:#888;margin-top:10px}
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:25px;max-width:1050px;margin:auto}
+.card{
+background:rgba(12,18,29,.82);border:1px solid rgba(0,140,255,.16);
+padding:30px;border-radius:18px;transition:transform .15s ease,box-shadow .35s,border-color .35s;
+transform-style:preserve-3d;will-change:transform;position:relative;overflow:hidden
+}
+.card::before{
+content:"";position:absolute;width:130px;height:130px;background:#008cff;
+filter:blur(80px);opacity:0;right:-40px;top:-40px;transition:.4s
+}
+.card:hover{border-color:#008cff;box-shadow:0 15px 50px rgba(0,140,255,.22)}
+.card:hover::before{opacity:.3}
+.icon{font-size:42px;margin-bottom:18px}
+.card h3{font-size:24px;margin-bottom:10px}
+.card p{color:#888;line-height:1.55}
+.price-list{margin:20px 0;display:flex;flex-direction:column;gap:8px}
+.rank{
+display:flex;justify-content:space-between;align-items:center;padding:11px 13px;
+background:rgba(0,140,255,.055);border:1px solid rgba(0,140,255,.12);
+border-radius:8px;position:relative;overflow:hidden;transition:.3s
+}
+.rank::before{
+content:"";position:absolute;left:-100%;top:0;width:100%;height:100%;
+background:linear-gradient(90deg,transparent,rgba(0,170,255,.15),transparent);transition:.5s
+}
+.rank:hover{transform:translateX(7px) scale(1.02);border-color:#008cff;background:rgba(0,140,255,.1)}
+.rank:hover::before{left:100%}
+.rank span,.rank strong{position:relative;z-index:1;font-size:13px}
+.rank span{color:#ddd;font-weight:bold}.rank strong{color:#00aaff}
+.custom-price{font-size:20px;color:#00aaff;font-weight:bold;margin:30px 0}
+.order{background:#008cff;color:#fff;margin-top:5px}
+.order:hover{background:#00aaff;box-shadow:0 0 22px rgba(0,140,255,.6);transform:translateY(-3px)}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+.feature{text-align:center;padding:30px;background:#0b0f18;border-radius:15px;border:1px solid #151d2c;transition:.3s}
+.feature:hover{transform:scale(1.04);border-color:#008cff}
+.feature h3{margin:15px 0 10px}.feature p{color:#888}
+.cta{text-align:center;background:linear-gradient(135deg,rgba(0,100,255,.15),rgba(0,0,0,.4));border-top:1px solid rgba(0,140,255,.2);border-bottom:1px solid rgba(0,140,255,.2)}
+.cta h2{font-size:45px}.cta p{color:#999;margin:15px 0 30px}
+footer{text-align:center;padding:35px;color:#666;background:#03050a}footer span{color:#00aaff}
+.reveal{opacity:0;transform:translateY(60px) scale(.96);transition:opacity .8s ease,transform .8s cubic-bezier(.17,.67,.3,1.2)}
+.reveal.active{opacity:1;transform:translateY(0) scale(1)}
+.particles{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-2}
+.particle{position:absolute;bottom:-20px;width:3px;height:3px;background:#00aaff;border-radius:50%;box-shadow:0 0 10px #008cff;animation:particleFloat linear infinite}
+.mouse-glow{
+position:fixed;width:300px;height:300px;border-radius:50%;pointer-events:none;
+background:radial-gradient(circle,rgba(0,150,255,.12),transparent 70%);
+transform:translate(-50%,-50%);z-index:-1;transition:left .06s linear,top .06s linear
+}
+.ripple{position:absolute;width:10px;height:10px;background:rgba(255,255,255,.5);border-radius:50%;transform:scale(0);animation:rippleEffect .6s linear;pointer-events:none}
+@keyframes particleFloat{0%{transform:translateY(0) translateX(0);opacity:0}20%{opacity:1}100%{transform:translateY(-110vh) translateX(80px);opacity:0}}
+@keyframes heroText{from{opacity:0;transform:translateY(40px) scale(.9);filter:blur(10px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes logoGlow{0%,100%{text-shadow:0 0 5px rgba(0,170,255,.3)}50%{text-shadow:0 0 25px rgba(0,170,255,.8)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 rgba(0,140,255,0)}50%{box-shadow:0 0 25px rgba(0,140,255,.4)}}
+@keyframes buttonGlow{0%,100%{box-shadow:0 0 10px rgba(0,140,255,.2)}50%{box-shadow:0 0 30px rgba(0,140,255,.65)}}
+@keyframes rippleEffect{to{transform:scale(25);opacity:0}}
+@media(max-width:700px){
+nav{padding:18px 5%}nav ul{display:none}section{padding:80px 5%}
+.hero h1{font-size:60px}.section-title h2,.cta h2{font-size:35px}
+.mouse-glow{display:none}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<div class="logo">WAN<span>HUMBLE</span></div>
+<ul>
+<li><a href="#home">Home</a></li>
+<li><a href="#services">Services</a></li>
+<li><a href="#why">Why Us</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+</nav>
+
+<section class="hero" id="home">
+<div class="hero-content">
+<div class="badge">⚡ MLBB SERVICE AVAILABLE</div>
+<h1>WAN<span>HUMBLE</span></h1>
+<p>Fast. Reliable. Professional.<br>Your trusted Mobile Legends service provider.</p>
+<div class="buttons">
+<a href="#services" class="btn primary">View Services</a>
+<a href="#contact" class="btn secondary">Contact Me</a>
+</div>
+</div>
+</section>
+
+<section id="services">
+<div class="section-title reveal">
+<h2>My <span>Services</span></h2>
+<p>Choose your service and start your order.</p>
+</div>
+
+<div class="services">
+
+<div class="card reveal">
+<div class="icon">⭐</div>
+<h3>Star Boost</h3>
+<p>Fast and reliable MLBB Star Boost service. Choose your current rank below.</p>
+
+<div class="price-list">
+<div class="rank"><span>GRANDMASTER</span><strong>RM 0.80 / STAR</strong></div>
+<div class="rank"><span>EPIC</span><strong>RM 1.10 / STAR</strong></div>
+<div class="rank"><span>LEGEND</span><strong>RM 2.20 / STAR</strong></div>
+<div class="rank"><span>MYTHIC</span><strong>RM 3.30 / STAR</strong></div>
+<div class="rank"><span>HONOR</span><strong>RM 4.40 / STAR</strong></div>
+<div class="rank"><span>GLORY</span><strong>RM 5.50 / STAR</strong></div>
+</div>
+
+<a href="https://wa.me/60142610094?text=Hi%20Wanhumble%2C%20I%20want%20to%20order%20Star%20Boost." target="_blank" class="order">⭐ Order Star Boost</a>
+</div>
+
+<div class="card reveal">
+<div class="icon">🎮</div>
+<h3>Custom Service</h3>
+<p>Need a custom MLBB service? Contact Wanhumble and discuss your requirements.</p>
+<div class="custom-price">CONTACT FOR PRICE</div>
+<a href="https://wa.me/60142610094?text=Hi%20Wanhumble%2C%20I%20want%20to%20ask%20about%20Custom%20Service." target="_blank" class="order">💬 Contact Me</a>
+</div>
+
+</div>
+</section>
+
+<section id="why">
+<div class="section-title reveal">
+<h2>Why <span>Wanhumble?</span></h2>
+<p>Quality service with a simple and professional experience.</p>
+</div>
+
+<div class="features">
+<div class="feature reveal"><div class="icon">⚡</div><h3>Fast Service</h3><p>Quick response and efficient service.</p></div>
+<div class="feature reveal"><div class="icon">🔒</div><h3>Safe</h3><p>Your account information is handled carefully.</p></div>
+<div class="feature reveal"><div class="icon">💯</div><h3>Reliable</h3><p>Professional service and clear communication.</p></div>
+<div class="feature reveal"><div class="icon">🎯</div><h3>Focused</h3><p>We focus on getting the job done properly.</p></div>
+</div>
+</section>
+
+<section class="cta" id="contact">
+<div class="reveal">
+<h2>Ready to <span>Order?</span></h2>
+<p>Contact Wanhumble now and start your MLBB service.</p>
+<div class="buttons">
+<a href="https://wa.me/60142610094?text=Hi%20Wanhumble%2C%20I%20want%20to%20order%20an%20MLBB%20service." target="_blank" class="btn primary">💬 WhatsApp</a>
+<a href="https://www.tiktok.com/@Hzwan.nn" target="_blank" class="btn secondary">🎵 TikTok @Hzwan.nn</a>
+</div>
+</div>
+</section>
+
+<footer>© 2026 <span>Wanhumble</span>. All Rights Reserved.</footer>
+
+<script>
+const reveals=document.querySelectorAll(".reveal");
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add("active")})
+},{threshold:.15});
+reveals.forEach(el=>observer.observe(el));
+
+const glow=document.createElement("div");
+glow.className="mouse-glow";
+document.body.appendChild(glow);
+document.addEventListener("mousemove",e=>{
+glow.style.left=e.clientX+"px";
+glow.style.top=e.clientY+"px";
+});
+
+const particleContainer=document.createElement("div");
+particleContainer.className="particles";
+document.body.appendChild(particleContainer);
+for(let i=0;i<45;i++){
+const p=document.createElement("span");
+p.className="particle";
+p.style.left=Math.random()*100+"%";
+p.style.animationDelay=Math.random()*8+"s";
+p.style.animationDuration=5+Math.random()*8+"s";
+particleContainer.appendChild(p);
+}
+
+document.querySelectorAll(".card").forEach(card=>{
+card.addEventListener("mousemove",e=>{
+const r=card.getBoundingClientRect();
+const x=e.clientX-r.left,y=e.clientY-r.top;
+const rx=((y-r.height/2)/(r.height/2))*-6;
+const ry=((x-r.width/2)/(r.width/2))*6;
+card.style.transform=`perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-10px)`;
+});
+card.addEventListener("mouseleave",()=>{card.style.transform=""});
+});
+
+document.querySelectorAll(".btn,.order").forEach(btn=>{
+btn.addEventListener("click",function(e){
+const ripple=document.createElement("span");
+ripple.className="ripple";
+const rect=this.getBoundingClientRect();
+ripple.style.left=(e.clientX-rect.left)+"px";
+ripple.style.top=(e.clientY-rect.top)+"px";
+this.appendChild(ripple);
+setTimeout(()=>ripple.remove(),600);
+});
+});
+
+const nav=document.querySelector("nav");
+window.addEventListener("scroll",()=>{
+nav.classList.toggle("scrolled",window.scrollY>50);
+});
+</script>
+
+</body>
+</html>
